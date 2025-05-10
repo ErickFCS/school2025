@@ -1,0 +1,2 @@
+source /home/santa/prog/school2025/Montaje/standAloneFuncs/build/bootloader/gdbinit/symbols
+source /home/santa/prog/school2025/Montaje/standAloneFuncs/build/bootloader/gdbinit/connect

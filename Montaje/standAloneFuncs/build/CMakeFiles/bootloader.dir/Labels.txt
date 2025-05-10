@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/home/santa/prog/school2025/Montaje/standAloneFuncs/build/CMakeFiles/bootloader
+/home/santa/prog/school2025/Montaje/standAloneFuncs/build/CMakeFiles/bootloader.rule
+/home/santa/prog/school2025/Montaje/standAloneFuncs/build/CMakeFiles/bootloader-complete.rule
+/home/santa/prog/school2025/Montaje/standAloneFuncs/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/home/santa/prog/school2025/Montaje/standAloneFuncs/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/home/santa/prog/school2025/Montaje/standAloneFuncs/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/home/santa/prog/school2025/Montaje/standAloneFuncs/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/home/santa/prog/school2025/Montaje/standAloneFuncs/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/home/santa/prog/school2025/Montaje/standAloneFuncs/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/home/santa/prog/school2025/Montaje/standAloneFuncs/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
