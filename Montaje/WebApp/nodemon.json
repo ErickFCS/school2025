@@ -1,0 +1,9 @@
+{
+    "ignore": [
+        "dist",
+        "build",
+        "tests"
+    ],
+    "exec": "pnpm build:b && node",
+    "ext": "ts,js,env"
+}
