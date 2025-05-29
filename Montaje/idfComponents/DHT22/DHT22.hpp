@@ -1,17 +1,18 @@
 #ifndef HDT22
 #define HDT22
 
+#include "pinControl.hpp"
+
 class DHT22
 {
 private:
-    int pin;
+    pinControl pin;
     float humidity;
     float temperature;
     unsigned char data[5];
 public:
     bool waitSignal(bool signal);
     DHT22(int pin);
-    void init();
     char readSensorData();
     float getHumidity();
     float getTemperature();
