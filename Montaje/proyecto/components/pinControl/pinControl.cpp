@@ -1,9 +1,5 @@
 #include "pinControl.hpp"
-extern "C" {
-    #include "freertos/FreeRTOS.h"
-    #include "driver/gpio.h"
-    #include "driver/adc.h"
-}
+
 
 pinControl::pinControl(int pinNumber) : pinNumber(pinNumber), state(0) {}
 
@@ -68,7 +64,7 @@ int pinControl::readState() {
     return state;
 }
 
-void pinControl::setAsAnalogInput() {
+void pinControl::setAsAnalogInput(int pull) {
     if(pinNumber < 11){
         adc1_config_width(ADC_WIDTH_BIT_12);
         switch (pinNumber) {
@@ -96,17 +92,11 @@ void pinControl::setAsAnalogInput() {
             case 8:
                 adc1_config_channel_atten(ADC1_CHANNEL_7, ADC_ATTEN_DB_11);
                 break;
-            case 9:
-                adc1_config_channel_atten(ADC1_CHANNEL_8, ADC_ATTEN_DB_11);
-                break;
-            case 10:
-                adc1_config_channel_atten(ADC1_CHANNEL_9, ADC_ATTEN_DB_11);
-                break;
             default:
                 break;
         }
     } else {
-        adc2_config_width(ADC_WIDTH_BIT_12);
+        adc1_config_width(ADC_WIDTH_BIT_12);
         switch (pinNumber) {
             case 1:
                 adc2_config_channel_atten(ADC2_CHANNEL_0, ADC_ATTEN_DB_11);

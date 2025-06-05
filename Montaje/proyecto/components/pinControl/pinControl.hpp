@@ -1,5 +1,10 @@
 #ifndef PINCONTROL_HPP
 #define PINCONTROL_HPP
+extern "C"{
+    #include "freertos/FreeRTOS.h"
+    #include "driver/gpio.h"
+    #include "driver/adc.h"
+}
 
 class pinControl {
     private:
@@ -20,6 +25,6 @@ class pinControl {
         void setAsAnalogInput(int pull);
         int readAnalogState();
         void configure(gpio_config_t io_conf);
-}
+};
 
 #endif // PINCONTROL_HPP
