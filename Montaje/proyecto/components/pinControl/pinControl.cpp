@@ -69,28 +69,28 @@ void pinControl::setAsAnalogInput(int pull) {
         adc1_config_width(ADC_WIDTH_BIT_12);
         switch (pinNumber) {
             case 1:
-                adc1_config_channel_atten(ADC1_CHANNEL_0, ADC_ATTEN_DB_11);
+                adc1_config_channel_atten(ADC1_CHANNEL_0, ADC_ATTEN_DB_12);
                 break;
             case 2:
-                adc1_config_channel_atten(ADC1_CHANNEL_1, ADC_ATTEN_DB_11);
+               adc1_config_channel_atten(ADC1_CHANNEL_1, ADC_ATTEN_DB_12);
                 break;
             case 3:
-                adc1_config_channel_atten(ADC1_CHANNEL_2, ADC_ATTEN_DB_11);
+                adc1_config_channel_atten(ADC1_CHANNEL_2, ADC_ATTEN_DB_12);
                 break;
             case 4:
-                adc1_config_channel_atten(ADC1_CHANNEL_3, ADC_ATTEN_DB_11);
+                adc1_config_channel_atten(ADC1_CHANNEL_3, ADC_ATTEN_DB_12);
                 break;
             case 5:
-                adc1_config_channel_atten(ADC1_CHANNEL_4, ADC_ATTEN_DB_11);
+                adc1_config_channel_atten(ADC1_CHANNEL_4, ADC_ATTEN_DB_12);
                 break;
             case 6:
-                adc1_config_channel_atten(ADC1_CHANNEL_5, ADC_ATTEN_DB_11);
+                adc1_config_channel_atten(ADC1_CHANNEL_5, ADC_ATTEN_DB_12);
                 break;
             case 7:
-                adc1_config_channel_atten(ADC1_CHANNEL_6, ADC_ATTEN_DB_11);
+                adc1_config_channel_atten(ADC1_CHANNEL_6, ADC_ATTEN_DB_12);
                 break;
             case 8:
-                adc1_config_channel_atten(ADC1_CHANNEL_7, ADC_ATTEN_DB_11);
+                adc1_config_channel_atten(ADC1_CHANNEL_7, ADC_ATTEN_DB_12);
                 break;
             default:
                 break;
@@ -99,34 +99,34 @@ void pinControl::setAsAnalogInput(int pull) {
         adc1_config_width(ADC_WIDTH_BIT_12);
         switch (pinNumber) {
             case 1:
-                adc2_config_channel_atten(ADC2_CHANNEL_0, ADC_ATTEN_DB_11);
+                adc2_config_channel_atten(ADC2_CHANNEL_0, ADC_ATTEN_DB_12);
                 break;
             case 2:
-                adc2_config_channel_atten(ADC2_CHANNEL_1, ADC_ATTEN_DB_11);
+                adc2_config_channel_atten(ADC2_CHANNEL_1, ADC_ATTEN_DB_12);
                 break;
             case 3:
-                adc2_config_channel_atten(ADC2_CHANNEL_2, ADC_ATTEN_DB_11);
+                adc2_config_channel_atten(ADC2_CHANNEL_2, ADC_ATTEN_DB_12);
                 break;
             case 4:
-                adc2_config_channel_atten(ADC2_CHANNEL_3, ADC_ATTEN_DB_11);
+                adc2_config_channel_atten(ADC2_CHANNEL_3, ADC_ATTEN_DB_12);
                 break;
             case 5:
-                adc2_config_channel_atten(ADC2_CHANNEL_4, ADC_ATTEN_DB_11);
+                adc2_config_channel_atten(ADC2_CHANNEL_4, ADC_ATTEN_DB_12);
                 break;
             case 6:
-                adc2_config_channel_atten(ADC2_CHANNEL_5, ADC_ATTEN_DB_11);
+                adc2_config_channel_atten(ADC2_CHANNEL_5, ADC_ATTEN_DB_12);
                 break;
             case 7:
-                adc2_config_channel_atten(ADC2_CHANNEL_6, ADC_ATTEN_DB_11);
+                adc2_config_channel_atten(ADC2_CHANNEL_6, ADC_ATTEN_DB_12);
                 break;
             case 8:
-                adc2_config_channel_atten(ADC2_CHANNEL_7, ADC_ATTEN_DB_11);
+                adc2_config_channel_atten(ADC2_CHANNEL_7, ADC_ATTEN_DB_12);
                 break;
             case 9:
-                adc2_config_channel_atten(ADC2_CHANNEL_8, ADC_ATTEN_DB_11);
+                adc2_config_channel_atten(ADC2_CHANNEL_8, ADC_ATTEN_DB_12);
                 break;
             case 10:
-                adc2_config_channel_atten(ADC2_CHANNEL_9, ADC_ATTEN_DB_11);
+                adc2_config_channel_atten(ADC2_CHANNEL_9, ADC_ATTEN_DB_12);
                 break;
             default:
                 break;
@@ -138,34 +138,28 @@ int pinControl::readAnalogState() {
     if(pinNumber < 11){
         switch (pinNumber) {
             case 1:
-                state = adc1_get_raw(ADC1_CHANNEL_0, ADC_ATTEN_DB_11);
+                state = adc1_get_raw(ADC1_CHANNEL_0);
                 break;
             case 2:
-                state = adc1_get_raw(ADC1_CHANNEL_1, ADC_ATTEN_DB_11);
+                state = adc1_get_raw(ADC1_CHANNEL_1);
                 break;
             case 3:
-                state = adc1_get_raw(ADC1_CHANNEL_2, ADC_ATTEN_DB_11);
+                state = adc1_get_raw(ADC1_CHANNEL_2);
                 break;
             case 4:
-                state = adc1_get_raw(ADC1_CHANNEL_3, ADC_ATTEN_DB_11);
+                state = adc1_get_raw(ADC1_CHANNEL_3);
                 break;
             case 5:
-                state = adc1_get_raw(ADC1_CHANNEL_4, ADC_ATTEN_DB_11);
+                state = adc1_get_raw(ADC1_CHANNEL_4);
                 break;
             case 6:
-                state = adc1_get_raw(ADC1_CHANNEL_5, ADC_ATTEN_DB_11);
+                state = adc1_get_raw(ADC1_CHANNEL_5);
                 break;
             case 7:
-                state = adc1_get_raw(ADC1_CHANNEL_6, ADC_ATTEN_DB_11);
+                state = adc1_get_raw(ADC1_CHANNEL_6);
                 break;
             case 8:
-                state = adc1_get_raw(ADC1_CHANNEL_7, ADC_ATTEN_DB_11);
-                break;
-            case 9:
-                state = adc1_get_raw(ADC1_CHANNEL_8, ADC_ATTEN_DB_11);
-                break;
-            case 10:
-                state = adc1_get_raw(ADC1_CHANNEL_9, ADC_ATTEN_DB_11);
+                state = adc1_get_raw(ADC1_CHANNEL_7);
                 break;
             default:
                 break;
@@ -173,34 +167,34 @@ int pinControl::readAnalogState() {
     } else {
         switch (pinNumber) {
             case 1:
-                state = adc2_get_raw(ADC2_CHANNEL_0, ADC_ATTEN_DB_11);
+                adc2_get_raw(ADC2_CHANNEL_0, ADC_WIDTH_BIT_12, &state);
                 break;
             case 2:
-                state = adc2_get_raw(ADC2_CHANNEL_1, ADC_ATTEN_DB_11);
+                adc2_get_raw(ADC2_CHANNEL_1, ADC_WIDTH_BIT_12, &state);
                 break;
             case 3:
-                state = adc2_get_raw(ADC2_CHANNEL_2, ADC_ATTEN_DB_11);
+                adc2_get_raw(ADC2_CHANNEL_2, ADC_WIDTH_BIT_12, &state);
                 break;
             case 4:
-                state = adc2_get_raw(ADC2_CHANNEL_3, ADC_ATTEN_DB_11);
+                adc2_get_raw(ADC2_CHANNEL_3, ADC_WIDTH_BIT_12, &state);
                 break;
             case 5:
-                state = adc2_get_raw(ADC2_CHANNEL_4, ADC_ATTEN_DB_11);
+                adc2_get_raw(ADC2_CHANNEL_4, ADC_WIDTH_BIT_12, &state);
                 break;
             case 6:
-                state = adc2_get_raw(ADC2_CHANNEL_5, ADC_ATTEN_DB_11);
+                adc2_get_raw(ADC2_CHANNEL_5, ADC_WIDTH_BIT_12, &state);
                 break;
             case 7:
-                state = adc2_get_raw(ADC2_CHANNEL_6, ADC_ATTEN_DB_11);
+                adc2_get_raw(ADC2_CHANNEL_6, ADC_WIDTH_BIT_12, &state);
                 break;
             case 8:
-                state = adc2_get_raw(ADC2_CHANNEL_7, ADC_ATTEN_DB_11);
+                adc2_get_raw(ADC2_CHANNEL_7, ADC_WIDTH_BIT_12, &state);
                 break;
             case 9:
-                state = adc2_get_raw(ADC2_CHANNEL_8, ADC_ATTEN_DB_11);
+                adc2_get_raw(ADC2_CHANNEL_8, ADC_WIDTH_BIT_12, &state);
                 break;
             case 10:
-                state = adc2_get_raw(ADC2_CHANNEL_9, ADC_ATTEN_DB_11);
+                adc2_get_raw(ADC2_CHANNEL_9, ADC_WIDTH_BIT_12, &state);
                 break;
             default:
                 break;
