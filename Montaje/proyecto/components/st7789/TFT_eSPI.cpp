@@ -94,6 +94,16 @@ void TFT_eSPI::begin_nin_write(void){
   }
 }
 
+
+
+void TFT_eSPI::dmaWait() {
+    // Dummy function para resolver el error de linker
+}
+
+
+
+
+
 /***************************************************************************************
 ** Function name:           end_tft_write (was called spi_end)
 ** Description:             End transaction for write and deselect TFT
