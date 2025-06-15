@@ -36,9 +36,9 @@ st7789::st7789(){
 	//lcdInversionOn(&dev);
 	lcdInversionOff(&dev);
 #endif
-    InitFontxMem(fx16G,ILGH16XB_FNT,ILGH16XB_FNT_len); // 8x16Dot Gothic
-	InitFontxMem(fx24G,ILGH24XB_FNT,ILGH24XB_FNT_len); // 12x24Dot Gothic
-	InitFontxMem(fx32G,ILGH32XB_FNT,ILGH32XB_FNT_len); // 16x32Dot Gothic
+    InitFontxMem(fonts_m[gh16],ILGH16XB_FNT,ILGH16XB_FNT_len); // 8x16Dot Gothic
+	InitFontxMem(fonts_m[gh24],ILGH24XB_FNT,ILGH24XB_FNT_len); // 12x24Dot Gothic
+	InitFontxMem(fonts_m[gh32],ILGH32XB_FNT,ILGH32XB_FNT_len); // 16x32Dot Gothic
 }
 
 st7789* st7789::getInstance(){
@@ -46,3 +46,28 @@ st7789* st7789::getInstance(){
     if(singleton==nullptr) singleton=new st7789();
     return singleton;
 }
+void st7789::turnBacklight(bool to){
+    if(to) lcdBacklightOn(&dev);
+    else lcdBacklightOff(&dev);
+}
+
+void st7789::render(){lcdDrawFinish(&dev);}
+void st7789::cleanBuffer(){lcdFillScreen(&dev, BLACK);}
+
+void st7789::drawPixel(uint16_t x, uint16_t y, uint16_t color){}
+//TODO: pensar como implementar esto de forma comoda de usar. por ahora no existe
+void st7789::drawPixels(uint16_t color){}
+
+void st7789::drawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color){}
+
+void st7789::drawRect(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color){}
+void st7789::drawFillRect(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color){}
+void st7789::drawRectAngle(uint16_t xc, uint16_t yc, uint16_t w, uint16_t h, uint16_t angle, uint16_t color){}
+void st7789::drawFillSquare(uint16_t x0, uint16_t y0, uint16_t size, uint16_t color){}
+void st7789::drawSquare(uint16_t x0, uint16_t y0, uint16_t size, uint16_t color){}
+
+void st7789::drawCircle(uint16_t x0, uint16_t y0, uint16_t r, uint16_t color){}
+void st7789::drawFillCircle(uint16_t x0, uint16_t y0, uint16_t size, uint16_t color){}
+
+int st7789::lcdDrawChar(st7789::fonts font, uint16_t x, uint16_t y, uint8_t ascii, uint16_t color){}
+int st7789::lcdDrawString(st7789::fonts font, uint16_t x, uint16_t y, uint8_t * ascii, uint16_t color){}
