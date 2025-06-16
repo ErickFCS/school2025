@@ -53,7 +53,7 @@ void st7789::turnBacklight(bool to){
 
 void st7789::render(){lcdDrawFinish(&dev);}
 void st7789::cleanBuffer(){lcdFillScreen(&dev, BLACK);}
-    void fillScreen(uint16_t color){lcdFillScreen(&dev, BLACK);}
+void st7789::fillScreen(uint16_t color){lcdFillScreen(&dev, BLACK);}
 
 void st7789::drawPixel(uint16_t x, uint16_t y, uint16_t color){lcdDrawPixel(&dev,x,y,color);}
 void st7789::drawPixels(uint16_t color){}
