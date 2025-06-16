@@ -1,0 +1,36 @@
+@url = http://localhost:3000/api/users/users
+@id = 2
+
+###* ok
+
+GET {{url}} HTTP/1.1
+
+###* ok
+
+GET {{url}}/{{id}} HTTP/1.1
+
+###* ok
+
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "user1",
+    "password": "password"
+}
+
+###* ok
+
+PUT {{url}}/{{id}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "user1",
+    "password": "password"
+}
+
+###* ok
+
+DELETE {{url}}/{{id}} HTTP/1.1
+
+###* All Done

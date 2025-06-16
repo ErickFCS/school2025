@@ -1,0 +1,17 @@
+@url = http://localhost:3000/api/devices/sign
+@id = 2
+@password = fc76ddc951c5570a269fbecb2c44cdbb
+###* ok
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{}
+###* ok
+PUT {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": {{id}},
+    "password": "{{password}}"
+}
+###* All Done
