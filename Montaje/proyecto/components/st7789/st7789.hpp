@@ -51,10 +51,10 @@ public:
     void drawSquare(uint16_t x0, uint16_t y0, uint16_t size, uint16_t color);
     
     void drawCircle(uint16_t x0, uint16_t y0, uint16_t r, uint16_t color);
-    void drawFillCircle(uint16_t x0, uint16_t y0, uint16_t size, uint16_t color);
+    void drawFillCircle(uint16_t x0, uint16_t y0, uint16_t r, uint16_t color);
 
-    int lcdDrawChar(st7789::fonts font, uint16_t x, uint16_t y, uint8_t ascii, uint16_t color);
-    int lcdDrawString(st7789::fonts font, uint16_t x, uint16_t y, uint8_t * ascii, uint16_t color);
+    int drawChar(st7789::fonts font, uint16_t x, uint16_t y, uint8_t ascii, uint16_t color);
+    int drawString(st7789::fonts font, uint16_t x, uint16_t y, uint8_t * ascii, uint16_t color);
 
 
 protected:
