@@ -1,4 +1,4 @@
-@url = http://localhost:3000/api/users/users
+@url = http://localhost:3000/api/users/data
 @id = 2
 
 ###* ok
