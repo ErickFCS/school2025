@@ -14,7 +14,7 @@ const instance = axios.create({
 export const getAll = async () => {
     try {
         const { data } = await instance.get("/");
-        return z.array(deviceSchema).parse(data);
+        return z.array(deviceWithIdSchema).parse(data);
     } catch (error) {
         console.error("Error in get all devices", serializeError(error));
         throw error;

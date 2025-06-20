@@ -13,7 +13,7 @@ const Navbar = () => {
     return (
         <NB>
             <NB.Brand onClick={() => { handleNavLink("/") }}>M.A.L.</NB.Brand>
-            <Nav activeKey="/" onSelect={handleNavLink}>
+            <Nav className="ms-auto" activeKey="/" onSelect={handleNavLink}>
                 <Nav.Item>
                     <Nav.Link eventKey="/listDevices">Devices</Nav.Link>
                 </Nav.Item>

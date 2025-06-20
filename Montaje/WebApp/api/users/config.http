@@ -1,5 +1,6 @@
 @url = http://localhost:3000/api/users/config
-@id = 2
+@id = 1
+@espId = 2
 
 ###* ok
 
@@ -15,10 +16,10 @@ POST {{url}} HTTP/1.1
 Content-Type: application/json
 
 {
-    "espId": 1,
-    "field": "",
+    "espId": {{espId}},
+    "field": "config2",
     "groupId": 1,
-    "value": ""
+    "value": "idotknow2"
 }
 
 ###* ok
@@ -27,7 +28,7 @@ PUT {{url}}/{{id}} HTTP/1.1
 Content-Type: application/json
 
 {
-    "espId": 1,
+    "espId": {{espId}},
     "field": "",
     "groupId": 1,
     "value": ""

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-const signReducer = createSlice({
+const signSlice = createSlice({
     initialState: null,
     name: "sign",
     reducers: {
@@ -13,5 +13,7 @@ const signReducer = createSlice({
         }
     }
 });
+export const { signIn, signOut } = signSlice.actions;
 
-export default signReducer.reducer;
+const signReducer = signSlice.reducer
+export default signReducer;
