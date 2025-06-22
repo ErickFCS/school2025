@@ -36,7 +36,8 @@ sign.put("/", async (req, res, next) => {
         }
         const token = jwt.sign({ id: user.get("id") }, JWT_SECRET);
         res.status(200).json({
-            token: `Bearer ${token}`
+            token: `Bearer ${token}`,
+            user
         });
     } catch (error) {
         next(error);
