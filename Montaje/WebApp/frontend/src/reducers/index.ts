@@ -1,10 +1,12 @@
 import deviceReducer from "./devices";
+import notificationReducer from "./notification";
 import signReducer from "./sign";
 
 
 const reducers = {
     devices: deviceReducer,
-    sign: signReducer
+    sign: signReducer,
+    notification: notificationReducer
 }
 
 export default reducers;

@@ -6,7 +6,7 @@ import { z } from "zod";
 const instance = axios.create({
     baseURL: "/api/users/users",
     headers: {
-        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        "Authorization": localStorage.getItem("token"),
         "Content-Type": "application/json"
     }
 });

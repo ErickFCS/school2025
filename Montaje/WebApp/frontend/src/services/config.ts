@@ -6,7 +6,7 @@ import { Config, ConfigWithId, configWithIdSchema } from "../types/configs";
 const instance = axios.create({
     baseURL: "/api/users/config",
     headers: {
-        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        "Authorization": localStorage.getItem("token"),
         "Content-Type": "application/json"
     }
 });

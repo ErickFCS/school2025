@@ -5,9 +5,10 @@ import { User } from "../types/user";
 const instance = axios.create({
     baseURL: "/api/users/sign",
     headers: {
-        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        "Authorization": localStorage.getItem("token"),
         "Content-Type": "application/json"
     }
+
 });
 
 export const Up = async (user: User) => {
@@ -28,3 +29,5 @@ export const In = async (user: User) => {
         throw error;
     }
 }
+
+export default { Up, In };

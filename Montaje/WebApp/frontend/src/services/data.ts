@@ -6,7 +6,7 @@ import { Data, DataWithId, dataWithIdSchema } from "../types/data";
 const instance = axios.create({
     baseURL: "/api/users/data",
     headers: {
-        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        "Authorization": localStorage.getItem("token"),
         "Content-Type": "application/json"
     }
 });
