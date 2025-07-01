@@ -1,11 +1,11 @@
-import { useSelector } from "react-redux";
 import { State } from "../../store";
-import Card from 'react-bootstrap/Card'
+import Card from "react-bootstrap/Card";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 
 const ProfilePage = () => {
-    const user = useSelector((state: State) => state.sign)
+    const user = useSelector((state: State) => state.sign.user);
     const navigate = useNavigate();
     if (!user) {
         navigate("/signOut", { replace: true });
@@ -20,7 +20,7 @@ const ProfilePage = () => {
                 </Card.Text>
             </Card.Body>
         </Card>
-    )
-}
+    );
+};
 
 export default ProfilePage;

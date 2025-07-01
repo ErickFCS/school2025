@@ -1,33 +1,50 @@
-import { createSlice, Dispatch, UnknownAction } from "@reduxjs/toolkit";
+import { newNotification } from "./notification";
 import { In } from "../services/sign";
 import { User } from "../types/user";
-import { newNotification } from "./notification";
+import { Dispatch, UnknownAction, createSlice } from "@reduxjs/toolkit";
 
 
 const signSlice = createSlice({
-    initialState: null as User | null,
+    initialState: {
+        user: null as User | null,
+        loading: false
+    },
     name: "sign",
     reducers: {
-        setSign(_state, action) {
-            return action.payload as User;
-        },
         clearSign() {
-            return null;
+            return {
+                user: null,
+                loading: false
+            };
+        },
+        setLoading(state, action) {
+            return {
+                user: state.user,
+                loading: action.payload as boolean
+            }
+        },
+        setSign(_state, action) {
+            return {
+                user: action.payload as User,
+                loading: false
+            };
         }
     }
 });
-export const { setSign, clearSign } = signSlice.actions;
+export const { setSign, clearSign, setLoading } = signSlice.actions;
 
 export const signIn = (user: User) => (
     async (dispatch: Dispatch) => {
         try {
+            dispatch(setLoading(true));
             const token = await In(user);
+            dispatch(setLoading(false));
             localStorage.setItem("token", token);
             dispatch(setSign(user));
             dispatch(newNotification({
                 message: "Sign in successful",
                 variant: "success"
-            }))
+            }));
         } catch (error) {
             console.error("Sign in failed:", error);
             dispatch(newNotification({
@@ -36,7 +53,7 @@ export const signIn = (user: User) => (
             }));
         }
     }
-) as unknown as UnknownAction
+) as unknown as UnknownAction;
 
 export const signOut = () => (
     async (dispatch: Dispatch) => {
@@ -47,7 +64,7 @@ export const signOut = () => (
             variant: "success"
         }));
     }
-) as unknown as UnknownAction
+) as unknown as UnknownAction;
 
-const signReducer = signSlice.reducer
+const signReducer = signSlice.reducer;
 export default signReducer;

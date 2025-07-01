@@ -1,9 +1,9 @@
-import { configureStore } from "@reduxjs/toolkit"
-import reducers from "./reducers"
+import reducers from "./reducers";
+import { configureStore } from "@reduxjs/toolkit";
 
-const store = configureStore({ reducer: reducers })
 
-const state = store.getState()
-export type State = typeof state
+const store = configureStore({ reducer: reducers });
 
+export type State = ReturnType<typeof store.getState>
+export type GetState = typeof store.getState
 export default store;

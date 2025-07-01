@@ -26,6 +26,17 @@ config.get("/:id", async (req, res, next) => {
     }
 });
 
+config.get("/ofUser/:id", async (req, res, next) => {
+    try {
+        const configs = await models.Configuration.findAll({
+            where: { espId: req.params.id }
+        });
+        res.status(200).json(configs);
+    } catch (error) {
+        next(error);
+    }
+});
+
 config.post("/", async (req, res, next) => {
     try {
         const newconfig = new models.Configuration(configSchema.parse(req.body));

@@ -1,7 +1,7 @@
 
 
 const IndexPage = () => {
-    return (<p>IndexPage</p>)
-}
+    return (<p>IndexPage</p>);
+};
 
 export default IndexPage;

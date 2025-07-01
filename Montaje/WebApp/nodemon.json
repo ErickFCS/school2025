@@ -2,7 +2,8 @@
     "ignore": [
         "dist",
         "build",
-        "tests"
+        "tests",
+        "frontend"
     ],
     "exec": "pnpm build:b && node",
     "ext": "ts,js,env"

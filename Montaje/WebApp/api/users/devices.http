@@ -1,5 +1,5 @@
 @url = http://localhost:3000/api/users/devices
-@id = 1
+@id = 2
 
 ###* ok
 

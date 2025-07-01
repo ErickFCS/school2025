@@ -26,6 +26,20 @@ data.get("/:id", async (req, res, next) => {
     }
 });
 
+data.get("/ofDevice/:id", async (req, res, next) => {
+    try {
+        const data = await models.SensedData.findAll({
+            where: { espId: req.params.id }
+        })
+        if (!data) {
+            throw new Error(`Data entry with id: ${req.params.id} not found`);
+        }
+        res.status(200).json(data);
+    } catch (error) {
+        next(error);
+    }
+});
+
 data.post("/", async (req, res, next) => {
     try {
         const newData = new models.SensedData(dataSchema.parse(req.body));

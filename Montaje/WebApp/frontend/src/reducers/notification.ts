@@ -1,12 +1,12 @@
-import { createSlice, Dispatch, UnknownAction } from "@reduxjs/toolkit";
 import { Notification } from "../types/notification";
+import { Dispatch, UnknownAction, createSlice } from "@reduxjs/toolkit";
 
 
 const notificationSlice = createSlice({
     initialState: {
-        tailIndex: 0,
         headIndex: 0,
         notifications: {} as Record<number, Notification>,
+        tailIndex: 0
     },
     name: "notification",
     reducers: {
@@ -15,13 +15,13 @@ const notificationSlice = createSlice({
             let newNotification = { ...state.notifications };
             newNotification[state.tailIndex] = {
                 message,
-                variant,
+                variant
             };
             return {
                 headIndex: state.headIndex,
-                tailIndex: state.tailIndex + 1,
                 notifications: newNotification,
-            }
+                tailIndex: state.tailIndex + 1
+            };
         },
         removeNotification: (state) => {
             let newNotification = { ...state.notifications };
@@ -29,16 +29,16 @@ const notificationSlice = createSlice({
             if (state.headIndex >= state.tailIndex - 1) {
                 return {
                     headIndex: 0,
-                    tailIndex: 0,
                     notifications: {},
-                }
+                    tailIndex: 0
+                };
             }
             return {
                 headIndex: state.headIndex + 1,
-                tailIndex: state.tailIndex,
                 notifications: newNotification,
-            }
-        },
+                tailIndex: state.tailIndex
+            };
+        }
     }
 });
 

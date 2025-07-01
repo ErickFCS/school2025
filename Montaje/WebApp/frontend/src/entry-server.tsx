@@ -1,6 +1,6 @@
-import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import { renderToString } from "react-dom/server";
+import { BrowserRouter as Router } from "react-router-dom";
 
 
 export function render(_url: string) {

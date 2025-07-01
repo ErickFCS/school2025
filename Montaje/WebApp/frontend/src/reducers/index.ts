@@ -5,8 +5,8 @@ import signReducer from "./sign";
 
 const reducers = {
     devices: deviceReducer,
-    sign: signReducer,
-    notification: notificationReducer
-}
+    notification: notificationReducer,
+    sign: signReducer
+};
 
 export default reducers;

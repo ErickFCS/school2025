@@ -1,39 +1,33 @@
-import Stack from 'react-bootstrap/Stack';
-import Container from 'react-bootstrap/Container';
-import Table from 'react-bootstrap/Table'
-import Spinner from 'react-bootstrap/Spinner'
-import { useDispatch, useSelector } from 'react-redux';
-import { State } from '../../store';
-import { useEffect } from 'react';
-import { loadAllDevices } from '../../reducers/devices';
-import LinkTo from '../LinkTo';
+import { loadAllDevices } from "../../reducers/devices";
+import { State } from "../../store";
+import LinkTo from "../LinkTo";
+import { useEffect } from "react";
+import Stack from "react-bootstrap/Stack";
+import Table from "react-bootstrap/Table";
+import { useDispatch, useSelector } from "react-redux";
+import LoadingSpinner from "../LoadingSpinner";
+
 
 const ListDevicesPage = () => {
-    const dispatch = useDispatch()
-    const devices = useSelector((state: State) => (state.devices))
+    const dispatch = useDispatch();
+    const devices = useSelector((state: State) => (state.devices));
 
     useEffect(() => {
-        dispatch(loadAllDevices())
+        dispatch(loadAllDevices());
         const interval = setInterval(() => {
-            dispatch(loadAllDevices())
-        }, 10000)
+            dispatch(loadAllDevices());
+        }, 10000);
         return (() => {
             clearInterval(interval);
-        })
-    }, [dispatch])
+        });
+    }, [dispatch]);
 
-    if (!devices.length) {
-        return (
-            <Container style={{ display: "grid", gridTemplate: "repeat(3, 1fr) / repeat(3, 1fr)", justifyItems: "center", alignItems: "center", flexGrow: 1 }}>
-                <Spinner animation="border" role="status" style={{ gridRow: "2", gridColumn: "2" }}>
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            </Container>
-        )
+    if (devices.loading) {
+        return <LoadingSpinner />;
     }
     return (
-        <Stack className='align-items-center'>
-            <Table style={{ width: "50%", marginTop: "10%" }} striped bordered>
+        <Stack className="align-items-center">
+            <Table style={{ marginTop: "10%", width: "50%" }} striped bordered>
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -41,18 +35,18 @@ const ListDevicesPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {devices.map((e, i) => {
+                    {devices.devices.map((e, i) => {
                         return (
                             <LinkTo to={`/info/${e.id}`} key={`link${i}`}>
                                 <td key={`tdid${i}`}>{e.id}</td>
                                 <td key={`tdtime${i}`}>{e.startTime}</td>
                             </LinkTo>
-                        )
+                        );
                     })}
                 </tbody>
             </Table>
         </Stack>
     );
-}
+};
 
 export default ListDevicesPage;

@@ -1,23 +1,25 @@
-import NB from "react-bootstrap/Navbar"
-import Nav from "react-bootstrap/Nav"
-import { To, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { State } from "../store";
+import Nav from "react-bootstrap/Nav";
+import NB from "react-bootstrap/Navbar";
+import { useSelector } from "react-redux";
+import { To, useNavigate } from "react-router-dom";
+
 
 const Navbar = () => {
-    const user = useSelector((state: State) => state.sign)
-    const navigate = useNavigate()
+    const user = useSelector((state: State) => state.sign);
+    const navigate = useNavigate();
     const handleNavLink = (selectedKey: String | null) => {
         if (selectedKey === null)
-            return
-        navigate(selectedKey as To)
-    }
+            return;
+        navigate(selectedKey as To);
+    };
 
     return (
         <NB>
-            <NB.Brand onClick={() => { handleNavLink("/") }}>M.A.L.</NB.Brand>
+            <NB.Brand onClick={() => { handleNavLink("/"); }}>M.A.L.</NB.Brand>
             <Nav className="ms-auto" activeKey="/" onSelect={handleNavLink}>
-                {(!user)
+                {
+                    !user.user
                     &&
                     <>
                         <Nav.Item>
@@ -29,7 +31,7 @@ const Navbar = () => {
                     </>
                 }
                 {
-                    user
+                    user.user
                     &&
                     <>
                         <Nav.Item>
@@ -45,7 +47,7 @@ const Navbar = () => {
                 }
             </Nav>
         </NB>
-    )
-}
+    );
+};
 
 export default Navbar;

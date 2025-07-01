@@ -1,7 +1,8 @@
-import axios from "axios"
+import { Device, DeviceWithId, deviceSchema, deviceWithIdSchema } from "../types/device";
 import { serializeError } from "../utils";
+import axios from "axios";
 import { z } from "zod";
-import { Device, deviceSchema, DeviceWithId, deviceWithIdSchema } from "../types/device";
+
 
 const instance = axios.create({
     baseURL: "/api/users/devices",
@@ -19,37 +20,37 @@ export const getAll = async () => {
         console.error("Error in get all devices", serializeError(error));
         throw error;
     }
-}
+};
 
 export const getOne = async (id: number) => {
     try {
         const { data } = await instance.get(`/${id}`);
-        return deviceWithIdSchema.parse(data)
+        return deviceWithIdSchema.parse(data);
     } catch (error) {
         console.error("Error in get one devices", serializeError(error));
         throw error;
     }
-}
+};
 
 export const createOne = async (device: Device) => {
     try {
         const { data } = await instance.post("/", device);
-        return deviceWithIdSchema.parse(data)
+        return deviceWithIdSchema.parse(data);
     } catch (error) {
         console.error("Error in create one devices", serializeError(error));
         throw error;
     }
-}
+};
 
 export const updateOne = async (device: DeviceWithId) => {
     try {
-        const { data } = await instance.put(`/${device.id}`, device)
-        return deviceWithIdSchema.parse(data)
+        const { data } = await instance.put(`/${device.id}`, device);
+        return deviceWithIdSchema.parse(data);
     } catch (error) {
         console.error("Error in update one devices", serializeError(error));
         throw error;
     }
-}
+};
 
 export const deleteOne = async (id: number) => {
     try {
@@ -58,4 +59,4 @@ export const deleteOne = async (id: number) => {
         console.error("Error in delete one devices", serializeError(error));
         throw error;
     }
-}
+};

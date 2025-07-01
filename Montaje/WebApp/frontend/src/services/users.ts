@@ -1,7 +1,8 @@
-import axios from "axios"
-import { serializeError } from "../utils";
 import { User, UserWithId, userWithIdSchema } from "../types/user";
+import { serializeError } from "../utils";
+import axios from "axios";
 import { z } from "zod";
+
 
 const instance = axios.create({
     baseURL: "/api/users/users",
@@ -19,37 +20,37 @@ export const getAll = async () => {
         console.error("Error in get all users", serializeError(error));
         throw error;
     }
-}
+};
 
 export const getOne = async (id: number) => {
     try {
         const { data } = await instance.get(`/${id}`);
-        return userWithIdSchema.parse(data)
+        return userWithIdSchema.parse(data);
     } catch (error) {
         console.error("Error in get one user", serializeError(error));
         throw error;
     }
-}
+};
 
 export const createOne = async (user: User) => {
     try {
         const { data } = await instance.post("/", user);
-        return userWithIdSchema.parse(data)
+        return userWithIdSchema.parse(data);
     } catch (error) {
         console.error("Error in create one user", serializeError(error));
         throw error;
     }
-}
+};
 
 export const updateOne = async (user: UserWithId) => {
     try {
-        const { data } = await instance.put(`/${user.id}`, user)
-        return userWithIdSchema.parse(data)
+        const { data } = await instance.put(`/${user.id}`, user);
+        return userWithIdSchema.parse(data);
     } catch (error) {
         console.error("Error in update one user", serializeError(error));
         throw error;
     }
-}
+};
 
 export const deleteOne = async (id: number) => {
     try {
@@ -58,4 +59,4 @@ export const deleteOne = async (id: number) => {
         console.error("Error in delete one user", serializeError(error));
         throw error;
     }
-}
+};

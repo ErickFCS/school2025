@@ -6,10 +6,10 @@ const LinkButton = ({ value, className, children }: { value: string, className?:
     const navigate = useNavigate();
     const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         navigate(event.currentTarget.value);
-    }
+    };
     return (
         <button className={className} onClick={handleClick} value={value}>{children}</button>
-    )
-}
+    );
+};
 
 export default LinkButton;

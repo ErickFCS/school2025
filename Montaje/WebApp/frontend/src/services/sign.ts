@@ -1,6 +1,7 @@
-import axios from "axios"
-import { serializeError } from "../utils";
 import { User } from "../types/user";
+import { serializeError } from "../utils";
+import axios from "axios";
+
 
 const instance = axios.create({
     baseURL: "/api/users/sign",
@@ -18,7 +19,7 @@ export const Up = async (user: User) => {
         console.error("Error in sign up", serializeError(error));
         throw error;
     }
-}
+};
 
 export const In = async (user: User) => {
     try {
@@ -28,6 +29,6 @@ export const In = async (user: User) => {
         console.error("Error sign in ", serializeError(error));
         throw error;
     }
-}
+};
 
-export default { Up, In };
+export default { In, Up };
