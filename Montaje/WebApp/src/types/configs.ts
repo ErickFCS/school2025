@@ -8,4 +8,4 @@ export const configSchema = z.object({
     value: z.string().default("")
 });
 
-export type Config = z.infer<typeof configSchema>
+export type Config = z.infer<typeof configSchema>;

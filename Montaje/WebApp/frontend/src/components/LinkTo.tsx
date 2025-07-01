@@ -1,10 +1,10 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { To, useNavigate } from "react-router-dom";
 
 
 const LinkTo = ({ to, children }: { to: To, children: ReactNode }) => {
     const navigate = useNavigate();
-    const handleClick = (_event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const handleClick = () => {
         navigate(to);
     };
     return (

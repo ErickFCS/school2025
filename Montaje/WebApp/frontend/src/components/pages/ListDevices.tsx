@@ -1,11 +1,11 @@
 import { loadAllDevices } from "../../reducers/devices";
 import { State } from "../../store";
 import LinkTo from "../LinkTo";
+import LoadingSpinner from "../LoadingSpinner";
 import { useEffect } from "react";
 import Stack from "react-bootstrap/Stack";
 import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
-import LoadingSpinner from "../LoadingSpinner";
 
 
 const ListDevicesPage = () => {

@@ -8,9 +8,9 @@ const Notification = () => {
 
     return (
         <>
-            {Object.values(notifications).map(({ message, variant }) => {
+            {Object.values(notifications).map(({ message, variant }, i) => {
                 return (
-                    <Alert variant={variant} className="text-center" >
+                    <Alert key={`alert${i}`} variant={variant} className="text-center" >
                         {message}
                     </Alert >
                 );

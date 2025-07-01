@@ -1,6 +1,5 @@
 import js from "@eslint/js";
-import stylisticJs from "@stylistic/eslint-plugin-js";
-import stylisticTs from "@stylistic/eslint-plugin-ts";
+import stylistic from "@stylistic/eslint-plugin";
 import ts from "@typescript-eslint/eslint-plugin";
 import parserTs from "@typescript-eslint/parser";
 import importPlugin from "eslint-plugin-import";
@@ -9,7 +8,7 @@ import globals from "globals";
 
 
 export default [
-    { ignores: ["dist", "build"] },
+    { ignores: ["dist", "build", "frontend"] },
     {
         files: ["**/*.{js,ts}"],
         languageOptions: {
@@ -21,24 +20,23 @@ export default [
             }
         },
         plugins: {
-            "@stylistic/js": stylisticJs,
-            "@stylistic/ts": stylisticTs,
+            "@stylistic": stylistic,
             "@typescript-eslint": ts,
             "importPlugin": importPlugin,
             "sort-keys-fix": eslintPluginSortKeysFix
         },
         rules: {
             ...js.configs.recommended.rules,
-            "@stylistic/js/arrow-spacing": ["error", { "after": true, "before": true }],
-            "@stylistic/js/brace-style": ["error", "1tbs", { "allowSingleLine": true }],
-            "@stylistic/js/comma-dangle": ["error", "never"],
-            "@stylistic/js/comma-spacing": ["error", { "after": true }],
-            "@stylistic/js/eol-last": ["error", "always"],
-            "@stylistic/js/indent": ["error", 4],
-            "@stylistic/js/jsx-quotes": ["error", "prefer-double"],
-            "@stylistic/js/object-curly-spacing": ["error", "always"],
-            "@stylistic/js/quotes": ["error", "double", { "allowTemplateLiterals": "always" }],
-            "@stylistic/js/semi": ["error", "always"],
+            "@stylistic/arrow-spacing": ["error", { "after": true, "before": true }],
+            "@stylistic/brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+            "@stylistic/comma-dangle": ["error", "never"],
+            "@stylistic/comma-spacing": ["error", { "after": true }],
+            "@stylistic/eol-last": ["error", "always"],
+            "@stylistic/indent": ["error", 4],
+            "@stylistic/jsx-quotes": ["error", "prefer-double"],
+            "@stylistic/object-curly-spacing": ["error", "always"],
+            "@stylistic/quotes": ["error", "double", { "allowTemplateLiterals": "always" }],
+            "@stylistic/semi": ["error", "always"],
             "eqeqeq": ["error", "always"],
             "importPlugin/newline-after-import": ["error", { "considerComments": true, "count": 2, "exactCount": true }],
             "importPlugin/order": ["error", {

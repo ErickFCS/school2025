@@ -11,7 +11,7 @@ import ProfilePage from "./components/pages/Profile.js";
 import SignInPage from "./components/pages/SignIn.js";
 import SignOut from "./components/pages/SignOut.js";
 import SignUpPage from "./components/pages/SignUp.js";
-import Stack from "react-bootstrap/Stack"
+import Stack from "react-bootstrap/Stack";
 import { Route, Routes } from "react-router-dom";
 
 

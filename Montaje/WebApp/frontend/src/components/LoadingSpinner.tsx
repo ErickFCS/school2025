@@ -11,6 +11,6 @@ const LoadingSpinner = () => {
             </Spinner>
         </Container >
     );
-}
+};
 
 export default LoadingSpinner;

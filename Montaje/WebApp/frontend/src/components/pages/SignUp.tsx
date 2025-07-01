@@ -27,6 +27,7 @@ const SignUpPage = () => {
                     variant: "success"
                 }));
             } catch (error) {
+                console.error(error);
                 dispatch(newNotification({
                     message: "Sign Up failed. Please try again.",
                     variant: "danger"

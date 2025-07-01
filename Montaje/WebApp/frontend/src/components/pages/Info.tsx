@@ -1,19 +1,19 @@
-import Button from "react-bootstrap/Button";
-import { useDispatch, useSelector } from "react-redux";
-import Table from "react-bootstrap/Table";
-import { useMatch, useNavigate } from "react-router-dom";
-import { State } from "../../store";
-import { useEffect } from "react";
 import { loadDataOfDevice } from "../../reducers/devices";
+import { State } from "../../store";
 import LoadingSpinner from "../LoadingSpinner";
+import { useEffect } from "react";
+import Button from "react-bootstrap/Button";
+import Table from "react-bootstrap/Table";
+import { useDispatch, useSelector } from "react-redux";
+import { useMatch, useNavigate } from "react-router-dom";
 
 
 const InfoPage = () => {
     const match = useMatch("/info/:device");
     const deviceId = Number(match?.params.device);
-    const navigate = useNavigate()
-    const devices = useSelector((state: State) => (state.devices))
-    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    const devices = useSelector((state: State) => (state.devices));
+    const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(loadDataOfDevice(deviceId));
@@ -23,14 +23,14 @@ const InfoPage = () => {
         return (() => {
             clearInterval(interval);
         });
-    }, [dispatch, deviceId])
+    }, [dispatch, deviceId]);
 
     const handleToEditConfig = () => {
-        navigate(`/edit/${deviceId}`)
-    }
+        navigate(`/edit/${deviceId}`);
+    };
 
     if (devices.loading) {
-        return <LoadingSpinner />
+        return <LoadingSpinner />;
     }
 
     return (
@@ -45,14 +45,14 @@ const InfoPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {devices.data.map((data) => {
+                    {devices.data.map((data, i) => {
                         return (
-                            <tr>
+                            <tr key={`date${i}`}>
                                 <td>{data.type}</td>
                                 <td>{data.value}</td>
                                 <td>{data.timestamp}</td>
                             </tr>
-                        )
+                        );
                     })}
                 </tbody>
             </Table>

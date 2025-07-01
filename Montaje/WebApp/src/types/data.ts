@@ -8,4 +8,4 @@ export const dataSchema = z.object({
     value: z.string().min(1, "Value is required")
 });
 
-export type Data = z.infer<typeof dataSchema>
+export type Data = z.infer<typeof dataSchema>;

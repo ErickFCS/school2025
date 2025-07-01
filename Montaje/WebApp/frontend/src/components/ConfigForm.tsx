@@ -1,29 +1,36 @@
+import { deleteConfig, updateOrCreateConfig } from "../reducers/devices";
+import { GenericConfigSchema } from "../types/configs";
 import { useFormik } from "formik";
 import Button from "react-bootstrap/Button";
-import Form from 'react-bootstrap/Form';
-import { GenericConfigSchema } from "../types/configs";
+import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
-import { updateOrCreateConfig } from "../reducers/devices";
 
 
-const ConfigForm = ({ config }: { config: GenericConfigSchema }) => {
+const ConfigForm = ({ config, espId }: { config: GenericConfigSchema | undefined, espId: number }) => {
     const dispatch = useDispatch();
 
     const formik = useFormik({
         initialValues: {
-            field: config.field,
-            value: config.value
+            field: config?.field || "",
+            value: config?.value || ""
         },
         onSubmit(values) {
             dispatch(updateOrCreateConfig({
                 ...config,
+                espId,
                 field: values.field,
                 value: values.value
-            }))
-            formik.resetForm({ values })
+            }));
+            formik.resetForm({ values });
         }
-    })
-    console.log(formik.touched);
+    });
+
+    const handleDelete = () => {
+        if (config?.id) {
+            dispatch(deleteConfig(config.id));
+        }
+    };
+
     return (
         <Form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
             <Form.Group>
@@ -34,13 +41,15 @@ const ConfigForm = ({ config }: { config: GenericConfigSchema }) => {
                 <Form.Label>Value</Form.Label>
                 <Form.Control name="value" value={formik.values.value} onChange={formik.handleChange} />
             </Form.Group>
-            <Form.Group>
-                <Button variant="danger">X</Button>
-            </Form.Group>
+            {config?.id &&
+                <Form.Group>
+                    <Button variant="danger" onClick={handleDelete}>X</Button>
+                </Form.Group>
+            }
             {formik.dirty &&
                 <>
                     <Form.Group>
-                        <Button variant="success" type="submit">Update</Button>
+                        <Button variant="success" type="submit">Update or Create</Button>
                     </Form.Group>
                     <Form.Group>
                         <Button variant="info" type="reset">Reset</Button>
@@ -49,6 +58,6 @@ const ConfigForm = ({ config }: { config: GenericConfigSchema }) => {
             }
         </Form>
     );
-}
+};
 
 export default ConfigForm;

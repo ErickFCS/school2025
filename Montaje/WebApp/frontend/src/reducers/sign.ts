@@ -6,27 +6,27 @@ import { Dispatch, UnknownAction, createSlice } from "@reduxjs/toolkit";
 
 const signSlice = createSlice({
     initialState: {
-        user: null as User | null,
-        loading: false
+        loading: false,
+        user: null as User | null
     },
     name: "sign",
     reducers: {
         clearSign() {
             return {
-                user: null,
-                loading: false
+                loading: false,
+                user: null
             };
         },
         setLoading(state, action) {
             return {
-                user: state.user,
-                loading: action.payload as boolean
-            }
+                loading: action.payload as boolean,
+                user: state.user
+            };
         },
         setSign(_state, action) {
             return {
-                user: action.payload as User,
-                loading: false
+                loading: false,
+                user: action.payload as User
             };
         }
     }

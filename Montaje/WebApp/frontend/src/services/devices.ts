@@ -1,4 +1,4 @@
-import { Device, DeviceWithId, deviceSchema, deviceWithIdSchema } from "../types/device";
+import { Device, DeviceWithId, deviceWithIdSchema } from "../types/device";
 import { serializeError } from "../utils";
 import axios from "axios";
 import { z } from "zod";

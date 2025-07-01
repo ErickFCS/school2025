@@ -34,7 +34,7 @@ export const getOne = async (id: number) => {
 
 export const getFromOneDevice = async (id: number) => {
     try {
-        const { data } = await instance.get(`/ofUser/${id}`)
+        const { data } = await instance.get(`/ofUser/${id}`);
         return z.array(configWithIdSchema).parse(data);
     } catch (error) {
         console.error("Error in get from one user configs", serializeError(error));

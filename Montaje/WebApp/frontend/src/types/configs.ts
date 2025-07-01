@@ -8,16 +8,16 @@ export const configSchema = z.object({
     value: z.string().default("")
 });
 
-export type Config = z.infer<typeof configSchema>
+export type Config = z.infer<typeof configSchema>;
 
 export const configWithIdSchema = configSchema.extend({
     id: z.number().positive("The id must be positive")
 });
 
-export type ConfigWithId = z.infer<typeof configWithIdSchema>
+export type ConfigWithId = z.infer<typeof configWithIdSchema>;
 
 export const genericConfigSchema = configSchema.extend({
     id: z.number().positive("The id must be positive").optional()
 });
 
-export type GenericConfigSchema = z.infer<typeof genericConfigSchema>
+export type GenericConfigSchema = z.infer<typeof genericConfigSchema>;
