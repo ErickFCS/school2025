@@ -1,14 +1,33 @@
-extern"C"{
-    #include "esp_http_client.h"
-    #include "esp_log.h"
-}
-#define MAX_HTTP_OUTPUT_BUFFER 2048
-#define IPADDRESSERVER "PONER LA IP DEL 
+// http.hpp
+#pragma once
 
-class http_client{
-    char local_response_buffer[MAX_HTTP_OUTPUT_BUFFER + 1] = {0};
+#include "esp_http_client.h"
+#include <string>
+#include <map>
+
+class HttpClient {
 public:
-    http_client(const char* url);
-    void post();
-    void get();
-};
+    enum class Method { GET, POST, PUT, DELETE };
+
+    HttpClient(const std::string& url);
+    ~HttpClient();
+
+    // Configuracion
+    void set_method(Method method);
+    void set_header(const std::string& key, const std::string& value);
+    void set_body(const std::string& body);
+
+    // Ejecuta la peticion y devuelve respuesta en formato string
+    // Lanza excepcion o retorna código de error < 0 si falla
+    int perform(std::string& out_response);
+
+private:
+    esp_http_client_handle_t client_;
+    esp_http_client_config_t config_;
+
+    std::map<std::string, std::string> headers_;
+    std::string body_;
+
+    // Convierte Method a constante ESP-IDF
+    static esp_http_client_method_t to_esp_method(Method m);
+};;
