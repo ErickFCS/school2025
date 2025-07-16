@@ -28,6 +28,12 @@ void InitFontxMem(FontxFile* fx, const char* data, unsigned int len)
     fx->valid = OpenFontx(fx);
 }
 
+
+// Definiciones de los miembros estáticos
+std::mutex st7789::mutex_;
+st7789* st7789::singleton = nullptr;
+
+
 st7789::st7789(){
 	spi_master_init(&dev, CONFIG_MOSI_GPIO, CONFIG_SCLK_GPIO, CONFIG_CS_GPIO, CONFIG_DC_GPIO, CONFIG_RESET_GPIO, CONFIG_BL_GPIO);
 	lcdInit(&dev, CONFIG_WIDTH, CONFIG_HEIGHT, CONFIG_OFFSETX, CONFIG_OFFSETY);
@@ -36,9 +42,9 @@ st7789::st7789(){
 	//lcdInversionOn(&dev);
 	lcdInversionOff(&dev);
 #endif
-    InitFontxMem(fonts_m[gh16],ILGH16XB_FNT,ILGH16XB_FNT_len); // 8x16Dot Gothic
-	InitFontxMem(fonts_m[gh24],ILGH24XB_FNT,ILGH24XB_FNT_len); // 12x24Dot Gothic
-	InitFontxMem(fonts_m[gh32],ILGH32XB_FNT,ILGH32XB_FNT_len); // 16x32Dot Gothic
+    //InitFontxMem(fonts_m[gh16],ILGH16XB_FNT,ILGH16XB_FNT_len); // 8x16Dot Gothic
+	//InitFontxMem(fonts_m[gh24],ILGH24XB_FNT,ILGH24XB_FNT_len); // 12x24Dot Gothic
+	//InitFontxMem(fonts_m[gh32],ILGH32XB_FNT,ILGH32XB_FNT_len); // 16x32Dot Gothic
 }
 
 st7789* st7789::getInstance(){

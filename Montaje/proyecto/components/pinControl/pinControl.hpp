@@ -6,6 +6,8 @@ extern "C"{
     #include "driver/adc.h"
 }
 
+#define DELAYMS(x) vTaskDelay(( x + (portTICK_PERIOD_MS - 1) )/portTICK_PERIOD_MS);
+
 class pinControl {
     private:
         int pinNumber;
