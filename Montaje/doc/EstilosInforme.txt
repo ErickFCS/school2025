@@ -1,3 +1,0 @@
-Arial 11
-Interlineado 1.5
-5000 palabras máximo
