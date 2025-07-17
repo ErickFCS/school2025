@@ -3,16 +3,19 @@
 #include "esp_timer.h"
 
 
-class DHT22{
+class DHT22 {
 private:
-    pinControl pin;
+    int pin;
     float humidity;
     float temperature;
-    unsigned char data[5];
-    bool waitSignal(bool signal, unsigned long timeout);
+    uint8_t data[5] = {0};
+
+    bool waitForLevel(int level, uint32_t timeout_us);
 public:
-    DHT22(int pin) : pin(pin), humidity(0), temperature(0) {}
-    float getHumidity(){ return humidity; }
-    float getTemperature(){ return temperature; }
-    char readSensorData();
+    DHT22(int p) : pin(p), humidity(0), temperature(0) {}
+
+    float getHumidity() const { return humidity; }
+    float getTemperature() const { return temperature; }
+
+    int8_t readSensorData();
 };

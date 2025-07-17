@@ -5,7 +5,6 @@ extern "C"{
 #include "ILGH16XB.c" 
 #include "ILGH24XB.c"
 #include "ILGH32XB.c"
-#include <mutex>
 
 //matenmodio las fuentes
 //TODO: es probable que esto no funcione y haya que arreglarlo creando particiones en la memoria para guardar las funetes
@@ -63,7 +62,6 @@ protected:
 private:
 	TFT_t dev;
     static st7789 *singleton;
-    static std::mutex mutex_;
     FontxFile fonts_m[3][2];
 };
 

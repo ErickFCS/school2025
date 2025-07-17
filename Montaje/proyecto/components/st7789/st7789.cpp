@@ -1,6 +1,8 @@
 #include "st7789.hpp"
 #include <cstdio>
+#include "esp_log.h"
 
+#define TAG "st7789"
 
 void InitFontxMem(FontxFile* fx, const char* data, unsigned int len)
 {
@@ -30,7 +32,6 @@ void InitFontxMem(FontxFile* fx, const char* data, unsigned int len)
 
 
 // Definiciones de los miembros estáticos
-std::mutex st7789::mutex_;
 st7789* st7789::singleton = nullptr;
 
 
@@ -45,11 +46,12 @@ st7789::st7789(){
     //InitFontxMem(fonts_m[gh16],ILGH16XB_FNT,ILGH16XB_FNT_len); // 8x16Dot Gothic
 	//InitFontxMem(fonts_m[gh24],ILGH24XB_FNT,ILGH24XB_FNT_len); // 12x24Dot Gothic
 	//InitFontxMem(fonts_m[gh32],ILGH32XB_FNT,ILGH32XB_FNT_len); // 16x32Dot Gothic
+    ESP_LOGI(TAG,"termino el constructor");
 }
 
 st7789* st7789::getInstance(){
-    std::lock_guard<std::mutex> lock(mutex_);
     if(singleton==nullptr) singleton=new st7789();
+    ESP_LOGI(TAG,"termino el getinstance");
     return singleton;
 }
 void st7789::turnBacklight(bool to){
@@ -58,7 +60,6 @@ void st7789::turnBacklight(bool to){
 }
 
 void st7789::render(){lcdDrawFinish(&dev);}
-void st7789::cleanBuffer(){lcdFillScreen(&dev, BLACK);}
 void st7789::fillScreen(uint16_t color){lcdFillScreen(&dev, BLACK);}
 
 void st7789::drawPixel(uint16_t x, uint16_t y, uint16_t color){lcdDrawPixel(&dev,x,y,color);}

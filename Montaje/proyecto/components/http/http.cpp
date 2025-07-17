@@ -6,14 +6,15 @@
 static const char* TAG = "HttpClient";
 
 HttpClient::HttpClient(const std::string& url){
+    uRl=url;
     config_ = {};
-    config_.url = url.c_str();
+    config_.url = uRl.c_str();
     config_.timeout_ms = 5000;
+    config_.cert_pem = NULL,  // Esto desactiva la verificación del certificado
+    config_.transport_type = HTTP_TRANSPORT_OVER_SSL;
+    config_.skip_cert_common_name_check = true;
     client_ = esp_http_client_init(&config_);
-    if (!client_){
-        ESP_LOGE(TAG, "Error init http client");
-        //TODO: AGREGAR MANEJO DE ERRORES ACA
-    }
+    if (!client_)ESP_LOGE(TAG, "Error init http client");
     esp_http_client_set_method(client_, HTTP_METHOD_GET);
 }
 
@@ -53,6 +54,8 @@ int HttpClient::perform(std::string& out_response){
         ESP_LOGE(TAG, "HTTP request failed: %s", esp_err_to_name(err));
         return -1;
     }
+    ESP_LOGI(TAG,"statuscode: %d",
+            esp_http_client_get_status_code(this->client_));
 
     // Codigo de respuesta
     int status = esp_http_client_get_status_code(client_);

@@ -4,10 +4,10 @@
 #include "esp_http_client.h"
 #include <string>
 #include <map>
+    enum class Method { GET, POST, PUT, DELETE };
 
 class HttpClient {
 public:
-    enum class Method { GET, POST, PUT, DELETE };
 
     HttpClient(const std::string& url);
     ~HttpClient();
@@ -24,6 +24,7 @@ public:
 private:
     esp_http_client_handle_t client_;
     esp_http_client_config_t config_;
+    std::string uRl;
 
     std::map<std::string, std::string> headers_;
     std::string body_;

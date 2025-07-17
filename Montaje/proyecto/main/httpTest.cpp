@@ -1,6 +1,7 @@
 #include "st7789.hpp"
 #include "esp_log.h"
 #include "wifi.hpp"
+#include "http.hpp"
 
 #define TAG "main"
 
@@ -9,12 +10,19 @@
 
 extern "C" void app_main() {
     delayMS(5050);
-    ESP_LOGI(TAG,"begining delay ended");
-    st7789* pantalla=st7789::getInstance();
 
     wifi::init();
     wifi::connect(DEFAULT_SSID,DEFAULT_PASSWORD);
-
+    HttpClient peticiones("https://quesito.requestcatcher.com/test");
+    peticiones.set_method(Method::GET);
+    std::string respuesta;
+    while (1){
+        peticiones.perform(respuesta);
+        delayMS(3000);
+    }
+#if 0
+    ESP_LOGI(TAG,"begining delay ended");
+    st7789* pantalla=st7789::getInstance();
     while(1){
         pantalla->fillScreen(rgb565(255,0,0));
         pantalla->render();
@@ -29,5 +37,7 @@ extern "C" void app_main() {
         ESP_LOGI(TAG,"blue");
         delayMS(5000);
     }
+#endif
+
 
 }
