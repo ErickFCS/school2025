@@ -1,0 +1,14 @@
+idf.py -----> comando principal, es el que hace toda la magia. todo lo siguiente son argumentos para idf.py{
+    
+    set-target    -----> configuras en el proyecto actual que placa vas a usar (nosotros siempre "esp32s3"(va sin comillas))
+    menuconfig    -----> abre una TUI para configurar el proycto. la configuracion se guarda en el archivo "sdkconfig"{
+        -style    -----> cambi los colores de la TUI, "monochrome" siempre se ve bien
+    }
+    build         -----> compila el proyecto y crea los binarios
+    flash         -----> compila, crea los binarios y los flashea en el puerto especificado con -p
+    monitor       -----> muestra la informacion serial enviada en el puerto especificado con -p
+    -p            -----> especifica el puerto en el que esta la placa conectada. algunos comandos nlo necesitan.
+    -C            -----> para aclarar el path al projecto
+    --list-targets-----> enlista todas las placas para las que podes cargar codigo
+
+}

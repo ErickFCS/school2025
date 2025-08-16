@@ -58,41 +58,95 @@
 #define DEFAULT_PASSWORD "configuration"
 #define DEFAULT_SSID "quesito"
 #define DEFAULT_PASSWORD "quesosod"
+#define DEFAULT_SSID "Fibertel WiFi102 2.4GHz"
+#define DEFAULT_PASSWORD "01431224094"
 #define DHT_PIN 14
 
 int returns;
 nvs_handle_t eeprom;
 
+//TODO: mover esto a un componente aparte
 esp_err_t wE(nvs_handle_t handle, const char* key, const int value){
     esp_err_t err=nvs_set_i32(handle, key, value);
-    if (err!=ESP_OK)ESP_LOGE("NVS", "Error while seving int: %s", esp_err_to_name(err));
-    else nvs_commit(handle);
+    if(err==ESP_OK)return nvs_commit(handle);
+    ESP_LOGE("NVS", "Error while seving int: %s", esp_err_to_name(err));
     return err;
 }
 esp_err_t wE(nvs_handle_t handle, const char* key, const double value){
     esp_err_t err=nvs_set_blob(handle, key, &value, sizeof(value));
-    if (err!=ESP_OK)ESP_LOGE("NVS", "Error while seving double: %s", esp_err_to_name(err));
-    else nvs_commit(handle);
+    if(err==ESP_OK)return nvs_commit(handle);
+    ESP_LOGE("NVS", "Error while seving double: %s", esp_err_to_name(err));
     return err;
 }
 esp_err_t wE(nvs_handle_t handle, const char* key, const bool value){
     esp_err_t err=nvs_set_u8(handle, key, value);
-    if (err!=ESP_OK)ESP_LOGE("NVS", "Error while seving boolean: %s", esp_err_to_name(err));
-    else nvs_commit(handle);
+    if(err==ESP_OK)return nvs_commit(handle);
+    ESP_LOGE("NVS", "Error while seving boolean: %s", esp_err_to_name(err));
     return err;
 }
 esp_err_t wE(nvs_handle_t handle, const char* key, const char* value){
     esp_err_t err=nvs_set_str(handle, key, value);
-    if (err!=ESP_OK)ESP_LOGE("NVS", "Error while seving CString: %s", esp_err_to_name(err));
-    else nvs_commit(handle);
+    if(err==ESP_OK)return nvs_commit(handle);
+    ESP_LOGE("NVS", "Error while seving CString: %s", esp_err_to_name(err));
     return err;
 }
 esp_err_t wE(nvs_handle_t handle, const char* key, const std::string &value){
     esp_err_t err=nvs_set_str(handle, key, value.c_str());
-    if (err!=ESP_OK)ESP_LOGE("NVS", "Error while seving string: %s", esp_err_to_name(err));
-    else nvs_commit(handle);
+    if(err==ESP_OK)return nvs_commit(handle);
+    ESP_LOGE("NVS", "Error while seving string: %s", esp_err_to_name(err));
     return err;
 }
+
+esp_err_t rE(nvs_handle_t handle, const char* key, int32_t &out_value){
+    esp_err_t err=nvs_get_i32(handle, key, &out_value);
+    if (err == ESP_ERR_NVS_NOT_FOUND) {
+        ESP_LOGW("NVS", "Int key not found: %s", key);
+    } else if (err != ESP_OK) {
+        ESP_LOGE("NVS", "Error reading int: %s", esp_err_to_name(err));
+    }
+    return err;
+}
+esp_err_t rE(nvs_handle_t handle, const char* key, double &out_value){
+    size_t size=sizeof(double);
+    esp_err_t err=nvs_get_blob(handle, key, &out_value, &size);
+    if (err == ESP_ERR_NVS_NOT_FOUND) {
+        ESP_LOGW("NVS", "Double key not found: %s", key);
+    } else if (err != ESP_OK) {
+        ESP_LOGE("NVS", "Error reading double: %s", esp_err_to_name(err));
+    }
+    return err;
+}
+esp_err_t rE(nvs_handle_t handle, const char* key, bool &out_value){
+    uint8_t v=0;
+    esp_err_t err=nvs_get_u8(handle, key, &v);
+    if (err == ESP_ERR_NVS_NOT_FOUND) {
+        ESP_LOGW("NVS", "Bool key not found: %s", key);
+    } else if (err != ESP_OK) {
+        ESP_LOGE("NVS", "Error reading bool: %s", esp_err_to_name(err));
+    }
+    out_value=(v != 0);
+    return err;
+}
+esp_err_t rE(nvs_handle_t handle, const char* key, std::string &out_value){
+    size_t required_size;
+    esp_err_t err=nvs_get_str(handle, key, NULL, &required_size);
+    if (err == ESP_ERR_NVS_NOT_FOUND) {
+        ESP_LOGW("NVS", "String key not found: %s", key);
+        return err;
+    }
+    if (err != ESP_OK) return err;
+
+    char *buffer=(char*)malloc(required_size);
+    if (!buffer) return ESP_ERR_NO_MEM;
+
+    err=nvs_get_str(handle, key, buffer, &required_size);
+    if (err == ESP_OK) out_value=buffer;
+    else ESP_LOGE("NVS", "Error reading string: %s", esp_err_to_name(err));
+
+    free(buffer);
+    return err;
+}
+
 
 extern "C" void app_main() {
     //analog pins resolution
@@ -107,19 +161,25 @@ extern "C" void app_main() {
     }
     ESP_LOGI(TAG,"\"EEPROM\" initialized succesfully");
     returns=nvs_open("storage", NVS_READWRITE, &eeprom);
-    if (returns!=ESP_OK)ESP_LOGE(TAG,"Error while initializing the \"EEPROM\" part 2");
+    if(returns!=ESP_OK)ESP_LOGE(TAG,"Error while initializing the \"EEPROM\" part 2");
 
     //DHT22 init
     DHT22 humedad(DHT_PIN);
     ESP_LOGI(TAG,"DHT22 initialized");
 
+    //WIFI set-up
     wifi::init();
     wifi::connect(DEFAULT_SSID,DEFAULT_PASSWORD);
+
+    //HTTP init
     HttpClient peticiones("https://quesito.requestcatcher.com/test");
     peticiones.set_method(Method::POST);
-    std::string respuesta, body;
+    std::string respuesta;
+    std::string body;
+
+    //main loop
     while (1){
-        int8_t status = humedad.readSensorData();
+        int8_t status=humedad.readSensorData();
         if(status!=0)
             ESP_LOGW(TAG,"humidity sensor error. code:%d",status);
 
