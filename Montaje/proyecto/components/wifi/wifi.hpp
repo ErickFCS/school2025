@@ -11,7 +11,14 @@
 
 #include <cstring>
 
+#define WIFI_CONNECTED_BIT BIT0
+#define WIFI_FAIL_BIT BIT1
+
+#define WIFI_AUTHMODE WIFI_AUTH_WPA2_PSK
+
 namespace wifi{
+
+bool isConnected();
 
 static void ip_event_cb(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data);
 

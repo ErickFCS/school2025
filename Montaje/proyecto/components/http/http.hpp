@@ -20,10 +20,13 @@ public:
     // Ejecuta la peticion y devuelve respuesta en formato string
     // Lanza excepcion o retorna código de error < 0 si falla
     int perform(std::string& out_response);
+    int perform(const std::string& suffix, std::string& out_response);
 
 private:
+    static std::string join_url(const std::string& base, const std::string& suffix);
     esp_http_client_handle_t client_;
     esp_http_client_config_t config_;
+    esp_err_t lErr_m;
     std::string uRl;
 
     std::map<std::string, std::string> headers_;

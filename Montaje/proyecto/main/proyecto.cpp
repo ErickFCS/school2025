@@ -1,3 +1,4 @@
+#include "cJSON.h"
 #include <cstddef>
 #include "pinControl.hpp"
 #include "st7789.hpp"
@@ -52,21 +53,28 @@
  * },...]
  */
 
+/*
+ * ---EEPROM KEYS---
+ *  "link"
+ *  "ssid"
+ *  "ssidp"
+ *
+ * */
+
 #define TAG "main"
 
 #define DEFAULT_SSID "MAL-config-net"
 #define DEFAULT_PASSWORD "configuration"
-#define DEFAULT_SSID "quesito"
-#define DEFAULT_PASSWORD "quesosod"
-#define DEFAULT_SSID "Fibertel WiFi102 2.4GHz"
-#define DEFAULT_PASSWORD "01431224094"
 #define DHT_PIN 14
 
-int returns;
 nvs_handle_t eeprom;
+int returns;
+cJSON *parser;
+
 
 //TODO: mover esto a un componente aparte
-esp_err_t wE(nvs_handle_t handle, const char* key, const int value){
+//write
+esp_err_t wE(nvs_handle_t handle, const char* key, const int32_t value){
     esp_err_t err=nvs_set_i32(handle, key, value);
     if(err==ESP_OK)return nvs_commit(handle);
     ESP_LOGE("NVS", "Error while seving int: %s", esp_err_to_name(err));
@@ -97,6 +105,7 @@ esp_err_t wE(nvs_handle_t handle, const char* key, const std::string &value){
     return err;
 }
 
+//read
 esp_err_t rE(nvs_handle_t handle, const char* key, int32_t &out_value){
     esp_err_t err=nvs_get_i32(handle, key, &out_value);
     if (err == ESP_ERR_NVS_NOT_FOUND) {
@@ -149,6 +158,14 @@ esp_err_t rE(nvs_handle_t handle, const char* key, std::string &out_value){
 
 
 extern "C" void app_main() {
+    //TODO: comandos AT falsos para cargar el link en el nvs
+    //char line[MAX_CMD_LEN];
+    //while (1) {
+    //    if (fgets(line, sizeof(line), stdin) != NULL) {
+    //        line[strcspn(line, "\r\n")] = 0; // quitar \n
+    //        process_command(line);
+    //    }
+
     //analog pins resolution
     adc1_config_width(ADC_WIDTH_BIT_12);
 
@@ -169,19 +186,63 @@ extern "C" void app_main() {
 
     //WIFI set-up
     wifi::init();
-    wifi::connect(DEFAULT_SSID,DEFAULT_PASSWORD);
+
+    std::string ssid=DEFAULT_SSID,ssidp=DEFAULT_PASSWORD;
+    returns=rE(eeprom, "ssid", ssid);
+    if(returns==ESP_ERR_NVS_NOT_FOUND){
+        ESP_LOGI(TAG,"conecting to default wifi network");
+    }else{
+        ESP_LOGI(TAG,"conecting to private wifi network");
+        returns=rE(eeprom, "ssidp", ssidp);
+    };
+    returns=wifi::connect(ssid.c_str(),ssidp.c_str());
 
     //HTTP init
-    HttpClient peticiones("https://quesito.requestcatcher.com/test");
+    std::string link,respuesta, body;
+    returns=rE(eeprom,"link",link);
+    while(returns==ESP_ERR_NVS_NOT_FOUND){
+        ESP_LOGE(TAG,"no url saved in nvs");
+        delayMS(5000);
+    }
+    HttpClient peticiones(link);
     peticiones.set_method(Method::POST);
-    std::string respuesta;
-    std::string body;
+
+    //board identification info
+    std::string password,myData;
+    int32_t id;
+    returns=rE(eeprom,"id",id);
+    if(returns==ESP_ERR_NVS_NOT_FOUND&&wifi::isConnected()){
+        peticiones.perform("/api/devices/sign", respuesta);
+        parser=cJSON_Parse(respuesta.c_str());
+        if(!parser){
+            ESP_LOGE("JSON", "login server not responding or giving useless information. server responce: %s. rebooting...", respuesta.c_str());
+            esp_restart();
+        }
+        id=cJSON_GetObjectItem(parser,"id")->valueint;
+        password=cJSON_GetObjectItem(parser,"password")->valuestring;
+        returns=wE(eeprom,"id",id);
+        returns=wE(eeprom,"password",password);
+        myData=cJSON_PrintUnformatted(parser);
+        cJSON_Delete(parser);
+    }else returns=rE(eeprom,"password",password);
+    if(myData.empty()){
+        parser=cJSON_CreateObject();
+        cJSON_AddNumberToObject(parser, "id", id);
+        cJSON_AddStringToObject(parser, "password", password.c_str());
+        myData=cJSON_PrintUnformatted(parser);
+        cJSON_Delete(parser);
+    }
+    peticiones.set_body(myData);
+    peticiones.set_method(Method::PUT);
+    peticiones.perform("/api/devices/sign", respuesta);
+    parser=cJSON_Parse(respuesta.c_str());
+
 
     //main loop
     while (1){
-        int8_t status=humedad.readSensorData();
-        if(status!=0)
-            ESP_LOGW(TAG,"humidity sensor error. code:%d",status);
+        returns=humedad.readSensorData();
+        if(returns!=0)
+            ESP_LOGW(TAG,"humidity sensor error. code:%d",returns);
 
         ESP_LOGI(TAG, "Humedad: %.1f %% | Temperatura: %.1f °C | PPM: %d ",
                 humedad.getHumidity(), humedad.getTemperature(),getAnalog(1));

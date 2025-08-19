@@ -1,11 +1,6 @@
 #include <stdio.h>
 #include "wifi.hpp"
 
-#define WIFI_CONNECTED_BIT BIT0
-#define WIFI_FAIL_BIT BIT1
-
-#define WIFI_AUTHMODE WIFI_AUTH_WPA2_PSK
-
 #define TAG "WIFI"
 
 namespace wifi{
@@ -18,6 +13,10 @@ static esp_event_handler_instance_t ip_event_handler;
 static esp_event_handler_instance_t wifi_event_handler;
 
 static EventGroupHandle_t s_wifi_event_group = NULL;
+
+bool isConnected() {
+    return (xEventGroupGetBits(s_wifi_event_group) & WIFI_CONNECTED_BIT);
+}
 
 static void ip_event_cb(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data){
     ESP_LOGI(TAG, "Handling IP event, event code 0x%" PRIx32, event_id);
