@@ -23,6 +23,16 @@
  * todas las siguientes peticiones dentor de la variable "authorization" para que el 
  * servidor no te revote
  *
+ * peticion POST a /api/devices/config obtiene un objeto JSON con 5 campos
+ * el esp envia las configuraciones que tiene disponibles para modificar
+ * se deberia usar solo la primera primera vez que se conecta al servidor
+ * envia: [{
+ * espid    :[INT]
+ * field    :[STRING]   //nombre del campo a configurar
+ * groupid  :[INT]
+ * value    :[STRING]   //el valor del campo configurado
+ * },...]
+ *
  * peticion GET a /api/devices/config/{id del dispositivo} obtiene un objeto JSON con 5 campos
  * esto te devuelve TU configuracion
  * envia: [
@@ -33,15 +43,10 @@
  * value    :[STRING]   //el valor del campo configurado
  * },...]
  *
- * peticion POST a /api/devices/config obtiene un objeto JSON con 5 campos
- * el esp envia las configuraciones que tiene disponibles para modificar
- * se deberia usar solo la primera primera vez que se conecta al servidor
- * envia: [{
- * espid    :[INT]
- * field    :[STRING]   //nombre del campo a configurar
- * groupid  :[INT]
- * value    :[STRING]   //el valor del campo configurado
- * },...]
+ *
+ *
+ *
+ *
  *
  * peticion POST a /api/devices/data obtiene un objeto JSON con 5 campos
  * envia: [{
@@ -67,9 +72,12 @@
 #define DEFAULT_PASSWORD "configuration"
 #define DHT_PIN 14
 
+bool doRequest=false;
 nvs_handle_t eeprom;
 int returns;
 cJSON *parser;
+std::string password,myData;
+int32_t id;
 
 
 //TODO: mover esto a un componente aparte
@@ -156,6 +164,14 @@ esp_err_t rE(nvs_handle_t handle, const char* key, std::string &out_value){
     return err;
 }
 
+cJSON* objeter(const char* type, const char* value, const char* timestamp="2025-08-18T20:15:30Z"){
+    cJSON *objt=cJSON_CreateObject();
+    cJSON_AddNumberToObject(objt, "espid", id);
+    cJSON_AddStringToObject(objt, "type", type);
+    cJSON_AddStringToObject(objt, "value", value);
+    cJSON_AddStringToObject(objt, "timestamp", timestamp);
+    return objt;
+}
 
 extern "C" void app_main() {
     //TODO: comandos AT falsos para cargar el link en el nvs
@@ -208,8 +224,6 @@ extern "C" void app_main() {
     peticiones.set_method(Method::POST);
 
     //board identification info
-    std::string password,myData;
-    int32_t id;
     returns=rE(eeprom,"id",id);
     if(returns==ESP_ERR_NVS_NOT_FOUND&&wifi::isConnected()){
         peticiones.perform("/api/devices/sign", respuesta);
@@ -239,6 +253,8 @@ extern "C" void app_main() {
 
 
     //main loop
+    peticiones.set_method(Method::POST);
+    cJSON *petition=cJSON_CreateArray();
     while (1){
         returns=humedad.readSensorData();
         if(returns!=0)
@@ -246,9 +262,64 @@ extern "C" void app_main() {
 
         ESP_LOGI(TAG, "Humedad: %.1f %% | Temperatura: %.1f °C | PPM: %d ",
                 humedad.getHumidity(), humedad.getTemperature(),getAnalog(1));
+
+        cJSON_AddItemToArray(petition,objeter("temperature",
+                    std::to_string(humedad.getTemperature()).c_str()));
+        cJSON_AddItemToArray(petition,objeter("humedad",
+                    std::to_string(humedad.getHumidity()).c_str()));
+        cJSON_AddItemToArray(petition,objeter("PPM",
+                    std::to_string(getAnalog(1)).c_str()));
+        //JSON_AddItemToArray(petition,objeter("",std::to_string()));
+        if(!wifi::isConnected()){
+            peticiones.set_body(cJSON_PrintUnformatted(petition));
+            peticiones.perform("/api/devices/data", respuesta);
+            cJSON_Delete(petition);
+            cJSON *petition=cJSON_CreateArray();
+        }
         body=std::to_string(humedad.getTemperature());
         peticiones.set_body(body);
         peticiones.perform(respuesta);
         delayMS(3000);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
