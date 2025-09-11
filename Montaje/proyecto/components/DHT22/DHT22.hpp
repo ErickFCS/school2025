@@ -8,7 +8,7 @@ private:
     int pin;
     float humidity;
     float temperature;
-    uint8_t data[5] = {0};
+    uint8_t data[5];
 
     bool waitForLevel(int level, uint32_t timeout_us);
 public:

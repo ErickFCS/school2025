@@ -66,6 +66,13 @@
  *
  * */
 
+/*  NOTAS
+ *  actualmente en la "eeprom" esta el wifi de mi casa y su contraseña. (santa)
+ *   
+ *
+ * */
+
+
 #define TAG "main"
 
 #define DEFAULT_SSID "MAL-config-net"
@@ -172,6 +179,13 @@ cJSON* objeter(const char* type, const char* value, const char* timestamp="2025-
     cJSON_AddStringToObject(objt, "timestamp", timestamp);
     return objt;
 }
+void tests(DHT22 dht){
+    ESP_LOGW("ESTE TENES QUE VER", "return: %d", dht.readSensorData());
+    ESP_LOGW("ESTE TENES QUE VER", "humedad: %.2f", dht.getHumidity());
+    ESP_LOGW("ESTE TENES QUE VER", "temperatura: %.2f", dht.getTemperature());
+    delayMS(3000);
+    return;
+}
 
 extern "C" void app_main() {
     //TODO: comandos AT falsos para cargar el link en el nvs
@@ -222,6 +236,9 @@ extern "C" void app_main() {
     }
     HttpClient peticiones(link);
     peticiones.set_method(Method::POST);
+
+    //TEST
+    while(true)tests(humedad);
 
     //board identification info
     returns=rE(eeprom,"id",id);
@@ -282,44 +299,3 @@ extern "C" void app_main() {
         delayMS(3000);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
